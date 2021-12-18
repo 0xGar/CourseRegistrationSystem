@@ -1,0 +1,157 @@
+REGISTRATION SYSTEM 1.0 Development Version
+
+Credits:
+
+* ./account/templatetags/* contents credited to
+http://www.soyoucode.com/2011/set-variable-django-template
+
+* login backdrop:
+http://hdimagelib.com/university+lecture
+
+NOTE: Must set variable before running (see import & global variables). e.g.,
+"set PYTHONPATH=%PYTHONPATH%;c:\project\reg_sys\global
+"
+for windows
+
+********************************************************************
+* INTRODUCTION
+********************************************************************
+Software: 	Django 1.9.2
+		Python 3.x
+
+This document provides a technical, brief overview of the system
+and discusses some solutions to problems one may encounter when 
+running this software. More detailed information can be found in
+the comments within the code files.
+
+********************************************************************
+* DEFAULT ACCOUNTS AND DUMMY ACCOUNTS
+********************************************************************
+
+Administator Account: 
+	The default administrator account/password is 
+	admin:admin. Changing this password will have to be 
+	done at the command line level (see Django documentation), 
+	or through the Django's administrative GUI (http://127.0.0.1/admin), 
+	or through the GUI made for this software (http://127.0.0.1/profile).
+
+Dummy Accounts: Once the local webserver is running, visiting:
+			http://127.0.0.1/fill_db
+		will fill the database with fake usernames,
+		professors, and courses. For the production
+		version this must be removed by removing
+		reference to it in reg_sys/url.py
+		This must be removed in the final production version.
+
+********************************************************************
+* ./global/global_settings.py
+********************************************************************
+
+Contains software-wide settings that may be manipulated by the 
+administrator (e.g., max. registrations, account password complexity)
+
+********************************************************************
+* Schedulder App
+********************************************************************
+
+DESCRIPTION: Cancels courses, sends students to billing, etc. Must be
+configured to run using a scheduler such as chron once a day
+with the following command:
+	./python manage.py shell < /<PATH>/scheduler.py
+LOCATION: ./administrator/scheduler
+
+********************************************************************
+* Account App
+********************************************************************
+
+DESCRIPTION: Features used by other apps, such as 
+login/logout methods and templates shared between apps.
+LOCATION: ./account
+
+********************************************************************
+* Administrator App
+********************************************************************
+
+DESCRIPTION: Features that only the administrator can 
+use, such as creating new courses and accounts.
+LOCATION: ./admininistrator
+
+********************************************************************
+* Professor App
+********************************************************************
+
+DESCRIPTION: Professor-specific features, such as viewing 
+class list and adding courses to teach
+LOCATION: ./professor
+
+********************************************************************
+* Student App
+********************************************************************
+
+DESCRIPTION: Student-specific features, such as adding 
+and dropping courses.
+LOCATION: ./student
+
+********************************************************************
+* GENERAL NOTES
+********************************************************************
+
+This software uses the Django framework. As such, referencing 
+the Django documentation will provide additional information if 
+need be. But a quick overview:
+
+./reg_sys/settings.py: Links together all the apps (account,
+	student, professor, administrator) and specifies HTML
+	template locations, etc.
+
+./reg_sys/url.py:	Maps URLs to specific methods contained
+			within an app's views.py file. For example,
+			"/new_course/" in urls.py is mapped to 
+			"new_course()" in /administrator/views.py.
+
+./<app name>/template/	Contains HTML templates. Some templates
+			are interconnected; for example, most
+			apps use "/account/base.html" to generate
+			the top half of pages.
+			
+
+********************************************************************
+* IMPORTS & GLOBAL VARIABLES
+********************************************************************
+
+Global variables define some important features, such as 
+the maximum number of registrations per student. See "./global/global_settings.py"
+
+If you get errors that global_settings.py cannot be found then 
+you need to add its directory to the Python path:
+
+Windows(cmd): 
+	set PYTHONPATH=%PYTHONPATH%;c:\<...>\reg_sys\global
+ 	
+Linux(bash):
+	export PYTHONPATH=$PYTHONPATH:/<...>/reg_sys/global
+
+********************************************************************
+* DATABASE
+********************************************************************
+
+DESCRIPTION: 	Stores most of the information pertaining to 
+		registrations and everything else to do with the 
+		site. 
+DATABASE TYPE:	Sqlite
+LOCATION:	./account/models.view
+		./db.sqlite3
+
+NOTES: 	When updating the databse migrate/makemigrations commands
+	may need to be used. More information is available on 
+	this in the Django documentation. Caution is needed and
+	backups should be made before doing this.
+
+	If you completely delete the database for testing reasons
+	you will need to recreate it with:
+
+	"python manage.py migrate --run-syncdb"
+
+********************************************************************
+********************************************************************
+********************************************************************

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+<hr class="rs-hr">
+<p><br>
+<div class="panel panel-default">
+   <div class="panel-heading rs-panel-heading">
+      Profile
+   </div>
+   <div class="panel-body">
+   {%if user.is_superuser %}
+   {%else%}
+   <table class="table">
+   <tr><th>Username</th><td width=80% align=left>{{user.username}}</td></tr>
+   <tr><th>Email</th><td width=80% align=left>{{user.email}}</td></tr>
+   <tr><th>Registered as: </th><td width=80% align=left>{{user.person.account_type}}</td></tr>
+   <tr><th>First Name:</th><td width=80% align=left>{{user.person.first_name}}</td></tr>
+   <tr><th>Middle Name:</th><td width=80% align=left>{{user.person.middle_name}}</td></tr>
+   <tr><th>Last Name:</th><td width=80% align=left>{{user.person.last_name}}</td></tr>
+   <tr><th>Date of Birth:</th><td width=80% align=left>{{user.person.date_of_birth}}</td></tr>
+   <tr><th>Phone:</th><td width=80% align=left>{{user.person.phone_number}}</td></tr>
+   <tr><th>Postal Code:</th><td width=80% align=left>{{user.person.street_name}}</td></tr>
+   <tr><th>Province</th><td width=80% align=left>{{user.person.postal_code}}</td></tr>
+   <tr><th>Canada</th><td width=80% align=left>{{user.person.country}}</td></tr>
+   </table>
+   {%endif%}
+      {% include "set_password_base.html" %}	
+   </div>
+</div>
+
+{%endblock content%}

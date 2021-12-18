@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Course Information{% endblock %}
+{% block content %}
+<hr class="rs-hr">
+<p><br>
+<div class="panel panel-default">
+  <div class="panel-heading rs-panel-heading">
+    Course Information
+  </div>
+  <div class="panel-body">
+    <h3>{{class.course.name}} ({{class.course.name_id}})</h3>
+	<hr>
+  	<h4>General</h4>
+	<table>
+	<tr>
+	<th>Department: </th> <td>{{class.course.department.name}}</td>
+	</tr>
+	<tr>
+	<th>Prerequisites:</th><td>
+	  {% for p in prereq %}
+	    {{p.prerequisite}},&nbsp;
+	  {% endfor %}
+	</tr>
+	<tr>
+	<th>Description: </th>
+	<td>
+	{{class.course.description}}
+	</td>
+	</tr>
+	<tr>
+	<th>Professor: </th>
+	<td>
+    {% if class.professor %}
+      {{class.professor.registration.last_name}},
+	  {{class.professor.registration.first_name}}&nbsp;
+	{%else%} TBA
+	{%endif%}
+	</td>
+	</tr>
+	<tr>
+	  <td><b>Building</b></td>
+	  <td>
+	  	  {{class.building}}
+	  </td>
+	</tr>
+	</table><p><br>
+	<h4>Times</h4>
+	<table>
+	<tr>
+	<td><b>Class Times</b></td>
+	<td>
+	  {%for time in times%}
+	    <span class="label label-default">{{time.day}} {{time.start}}-{{time.end}}</span>
+	  {%endfor%}
+	</td>
+	</tr>
+	<td><b>Start Date</b>: <td>{{class.class_start_date}} - {{class.class_end_date}}</td>
+	</tr>
+	<tr>
+	<td><b>Registration</b>: <td> {{class.term.reg_start_date}} - {{class.term.reg_end_date}}</td>
+	</tr>
+	<tr>
+	<td><b>Withdrawal date</b>: <td>{{class.term.withdrawal_date}}</td>
+	</tr>
+	<tr>
+	</table>
+	<br>
+  </div>
+</div>
+<p>
+  {% endblock content %}

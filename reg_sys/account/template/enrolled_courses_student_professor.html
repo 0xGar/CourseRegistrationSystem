@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+{% block title %}My Courses{% endblock %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+    
+<hr style='background-color:blue !important;border:1px solid black'>
+<p>
+<br>
+
+<div class="panel-body">
+  {% if user.person.account_type == "student"  %}
+    <form action="/drop_course/" method="post">
+  {% endif %}
+  {% if user.person.account_type == "professor"  %}
+    <form action="/drop_course_prof/" method="post">
+  {% endif %}
+  {% csrf_token %}
+  <div class="panel panel-default" >
+    <div class="panel-heading rs-panel-heading">
+      Courses
+    </div>
+    <table class="table table-striped">
+      <tr>
+        <th>Course</th>
+      </tr>
+      {% for class in classes %}
+        <tr>
+        <td>
+          <input type="checkbox" id='{{class.id}}' name='courses_checkbox' value='{{class.id}}'>
+          <a href='/show_course?id={{class.id}}'>{{class.course.name}} ({{class.course.name_id}})</a><br>
+          <i>
+          <span class="rs-font-small">
+          {% if user.person.account_type == "student"  %}
+            Professor:
+            {% if class.professor == None %}
+              TBA
+            {%else%}
+              {{class.professor.registration.last_name}},
+              {{class.professor.registration.first_name}}&nbsp;
+            {%endif%}
+          {%endif%}
+          {% if user.person.account_type == "professor"  %}
+            <span class='rs-class-list'><a href='/class_list?id={{class.id}}'>(class list)</a></span>
+          {% endif %}		
+          </span>
+          </i>
+          </td>
+        </tr>
+      {% endfor %}
+      </table>
+    </div>	
+    <button type="submit" class="btn btn-success">
+    {% if user.person.account_type == "student"  %}
+      Drop
+    {% endif %}
+    {% if user.person.account_type == "professor"  %}
+      Stop Teaching
+    {% endif %}		  
+    </button>
+  </form>
+</div>
+
+{%endblock content%}

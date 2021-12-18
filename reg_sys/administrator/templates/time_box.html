@@ -1,0 +1,40 @@
+<div class="rs-subbox">
+  <input type=text id="class_times" name="class_times" style='display:none'>
+  <label for=monday><input type="checkbox" id=monday name=days value="monday">Monday</label>
+  <label for=tuesday><input type="checkbox" id=tuesday name=days value="tuesday">Tuesday</label>
+  <label for=wednesday><input type="checkbox" id=wednesday name=days value="wednesday">Wednesday</label>
+  <label for=thursday><input type="checkbox" id=thursday name=days value="thursday">Thursday</label>
+  <label for=friday><input type="checkbox" id=friday name=days value="friday">Friday</label>
+  <label for=saturday><input type="checkbox" id=saturday name=days value="saturday">Saturday</label>
+  <label for=sunday><input type="checkbox" id=sunday name=days value="sunday">Sunday</label>
+  <p><br>
+  <table class='table rs-subbox-color'>
+     <tr>
+        <td>From (hh:mm:ss)</td>
+        <td>
+           <input id="class_start_time" class="form-control"  pattern="\d\d:\d\d:\d\d">
+        </td>
+     </tr>
+     <tr>
+        <td>To  (hh:mm:ss)</td>
+        <td>
+           <input id="class_end_time" class="form-control" pattern="\d\d:\d\d:\d\d">
+        </td>
+     </tr>
+     <tr>
+        <td></td>
+        <td></td>
+     </tr>
+  </table>
+  <label for="classid">
+  <input id="classid" type=radio name="type_of_class_time" value="classroom" checked>Class
+  </label>&nbsp;
+  <label for="labid">
+  <input id="labid" type=radio name="type_of_class_time" value="lab">Lab
+  </label>
+  <p><br>
+  <span class="btn btn-success" onclick="$_TimeMod.addTime();return false">Add Time</span>
+</div>
+<p><br>
+<b>Times</b><br>
+<div id=times></div>

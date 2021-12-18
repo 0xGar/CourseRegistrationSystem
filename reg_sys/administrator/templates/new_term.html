@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<hr class="rs-hr">
+<p><br>
+<div class="panel panel-default">
+   <div class="panel-heading">
+      Add New Term
+   </div>
+   <div class="panel-body">
+      <form action="/new_term/" method="post">
+	  {% csrf_token %}
+        <p>
+         <table class="table table-striped">
+            <tr>
+               <th valign=top >
+                  Term Name
+               </th>
+               <td>
+                  <input class="form-control" name="term_name">
+               </td>
+            </tr>
+            <tr>
+               <th>Year</th>
+               <td><input name="term_year" class="form-control" type=text></td>
+            </tr>
+            <tr>
+               <th>Register Start Date {{course.reg_start_date}}</th>
+               <td><input name="reg_start_date" class="form-control" type=date value="{{course.reg_start_date|date:"Y-m-d"}}"></td>
+            </tr>
+            <tr>
+               <th>Register End Date</th>
+               <td><input  name="reg_end_date" class="form-control" type=date value="{{course.reg_end_date|date:"Y-m-d"}}"></td>
+            </tr>
+            <tr>
+               <th>Withdrawal Date</th>
+               <td><input name="course_withdrawal_date" class="form-control" type=date value="{{course.withdrawal_date|date:"Y-m-d"}}"></td>
+            </tr>
+         </table>
+         <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+   </div>
+</div>
+
+{%endblock content%}

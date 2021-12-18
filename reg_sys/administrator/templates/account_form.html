@@ -1,0 +1,126 @@
+<table class="table table-striped">
+  {%if user.is_superuser%}
+    <tr {%if modify%}{%else%}style="display:none"{%endif%}>
+      <th valign=top >
+        Account Status
+      </th>
+      <td>
+        <table>
+          <tr>
+            <td>
+              <input type=radio name="account_status" value="active" checked>
+      &nbsp;Approved
+              <p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type=radio name="account_status" value="inactive" {%if account.is_active %}{%else%} checked {%endif%}>
+      &nbsp;Not Approved
+              <p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  {%endif%}
+    <tr>
+      <th valign=top >
+        Account type
+      </th>
+      <td>
+        <table>
+          <tr>
+            <td>
+              <input type=radio name="account_type" value="student" 
+              {%if modify%}
+                {%if account.account_type == "student"%} checked {%endif%}
+                disabled
+              {%endif%} 
+              required>
+              &nbsp;Student
+              <p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type=radio name="account_type" value="professor" 
+              {%if modify%}
+                {%if account.account_type == "professor"%} checked {%endif%}
+                disabled
+              {%endif%} 
+              required>
+              &nbsp;Professor
+              <p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <th valign=top >
+        Name
+      </th>
+      <td>
+        <input name="first_name" class="form-control" type=text placeholder="First Name" pattern="[a-zA-Z]+" value="{{account.first_name}}" required>
+        <p><br>
+          <input name="middle_name" class="form-control" type=text placeholder="Middle Name" pattern="[A-Za-z]+" value="{{account.middle_name}}" >
+        <p><br>
+          <input name="last_name" class="form-control" type=text placeholder="Last Name"  value="{{account.last_name}}"  required>
+      </td>
+    </tr>
+    <tr>
+      <th>Date of Birth (yyyy-mm-dd)</th>
+      <td>
+        <input name="date_of_birth" class="form-control" type=date  value="{{account.date_of_birth|date:"Y-m-d"}}" pattern="\d\d\d\d-\d\d-\d\d" required></td>
+    </tr>
+    <tr>
+      <th valign=top >
+        Username
+      </th>
+      <td>
+        <input name="username" class="form-control" type=text placeholder="Username" value="{{account_user.username}}" required>
+      </td>
+    </tr>
+    <tr>
+      <th>Email {%if modify%}(do not modify){%endif%}</th>
+      <td><input name="email" class="form-control" 
+          type=email placeholder="Email"  
+          value="{{account_user.email}}"
+          required>
+      </td>
+    </tr>
+    <tr>
+      <th>Phone Number</th>
+      <td><input  name="phone_number" class="form-control" type=tel placeholder="Phone Number"  value="{{account.phone_number}}" pattern='[\+-]?\s*?\d?\s*\(?\s*\d{3,4}\s*\)?\s*-?\s*\d{3}\s*-?\s*\d{4}'></td>
+    </tr>
+    <tr>
+      <th valign=top>
+        Address
+      </th>
+      <td>
+        <input  name="street_name" class="form-control" type=text placeholder="Street"  value="{{account.street_name}}" required>
+        <p><br>
+          <input  name="postal_code" class="form-control" type=text placeholder="Postal Code"  value="{{account.postal_code}}" required>
+        <p><br>
+          <input  name="province" class="form-control" type=text placeholder="Province"  value="{{account.province}}" required>
+        <p><br>
+          <input  name="country" class="form-control" type=text placeholder="Country"  value="{{account.country}}" required>
+      </td>
+    <tr>
+      <th>Department</th>
+    <td>
+      <select class="form-control" name="department">
+      {% for department in departments %}
+        {%if student_department.id == department.id%}
+          <option value='{{department.id}}' selected="selected">{{department.name}}</option>
+        {%else%}
+          <option value='{{department.id}}'>{{department.name}}</option>
+        {%endif%}
+      {%endfor%}
+      </select>
+    </td>
+      <!--<td><input name="degree" type=text  class="form-control" placeholder="Degree Program"  value="{{degree}}"></td>-->
+    </tr>
+</table>
+<button type="submit" class="btn btn-success">Submit</button>

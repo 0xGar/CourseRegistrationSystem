@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Modify Account{% endblock %}
+{% block content %}
+
+<hr class="rs-hr">
+<p><br>
+<div class="panel panel-default">
+   <div class="panel-heading rs-panel-heading">
+      Modify Account
+   </div>
+   <div class="panel-body">
+      <form action="/new_account/" method="post">
+	  {% csrf_token %}
+	  <input type="input" name="command" value="modify_account" style="display:none">
+	  <input type="input" name="account_db_id" value="{{account.id}}" style="display:none">
+	  {% include "account_form.html" %}
+      </form>
+   </div>
+</div>
+
+{%endblock content%}

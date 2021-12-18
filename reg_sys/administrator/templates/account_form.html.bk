@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+<hr style='background-color:blue !important;border:1px solid black'>
+<p><br>
+<div class="panel panel-default">
+  <div class="panel-heading" style='background:#003782;color:#e7e7e7'>
+    Add new account
+  </div>
+  <div class="panel-body">
+    <form action="/new_account/" method="post">
+      {% csrf_token %}
+      <p>
+      <table class="table table-striped">
+        <tr>
+          <th valign=top >
+            Account type
+          </th>
+          <td>
+            <table>
+              <tr>
+                <td>
+                  <input type=radio name="account_type" value="student" required>&nbsp;Student
+                  <p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type=radio name="account_type" value="professor" required>&nbsp;Professor
+                  <p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <th valign=top >
+            Name
+          </th>
+          <td>
+            <input name="first_name" class="form-control" type=text placeholder="First Name" required>
+            <p><br>
+              <input name="middle_name" class="form-control" type=text placeholder="Middle Name">
+            <p><br>
+              <input name="last_name" class="form-control" type=text placeholder="Last Name" required>
+          </td>
+        </tr>
+        <tr>
+          <th>Date of Birth</th>
+          <td><input name="date_of_birth" class="form-control" type=date required></td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td><input name="email" class="form-control" type=email placeholder="Email"></td>
+        </tr>
+        <tr>
+          <th>Phone Number</th>
+          <td><input  name="phone_number" class="form-control" type=tel placeholder="Phone Number" pattern='[\+-]?\s*?\d?\s*\(?\s*\d{3,4}\s*\)?\s*-?\s*\d{3}\s*-?\s*\d{4}'></td>
+        </tr>
+        <tr>
+          <th valign=top>
+            Address
+          </th>
+          <td>
+            <input  name="street" class="form-control" type=text placeholder="Street" required>
+            <p><br>
+              <input  name="postal_code" class="form-control" type=text placeholder="Postal Code" required>
+            <p><br>
+              <input  name="province" class="form-control" type=text placeholder="Province" required>
+            <p><br>
+              <input  name="country" class="form-control" type=text placeholder="Country" required>
+          </td>
+        <tr>
+          <th>Degree</th>
+          <td><input name="degree" type=text  class="form-control" placeholder="Degree Program"></td>
+        </tr>
+      </table>
+      <button type="submit" class="btn btn-success">New Account</button>
+    </form>
+  </div>
+</div>
+<p>
+  {% endblock content %}
+COPY TO CLIPBOARD	 SELECT ALL

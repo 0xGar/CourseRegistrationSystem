@@ -1,0 +1,58 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <link href="{% static "bootstrap/css/bootstrap.min.css" %} "  rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="{% static "css/css.css" %}?100 ">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="{% static "bootstrap-3.3.7-dist/js/bootstrap.min.js" %} "></script>
+	<script src="{% static "js/functions.js" %}?100 "></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <title>{%block title%}Registration System{%endblock%}</title>
+	</head>
+  <body style="background:#e7e7e7">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+        </div>
+
+          <ul class="nav navbar-nav">
+		    <li><a href="/all_courses/">Course Listing</a></li>
+			{%if user.person.account_type == "student" %}
+			 <li><a href="/recommended_courses/">Recommended Courses</a></li>
+              <li><a href="/student_courses/">My Courses</a></li>
+			  <li><a href="/profile/">Profile</a></li>
+			{%endif%}
+			{%if user.person.account_type == "professor" %}
+			  <li><a href="/teach_list/">Courses I Can Teach</a></li>
+              <li><a href="/professor_courses/">Courses I'm Teaching</a></li>
+			  <li><a href="/profile/">Profile</a></li>
+			{%endif%}
+			
+			{% if user.is_superuser %}
+				<li><a href="/new_class/">New Class</a></li>
+				<li><a href="/new_account/">New User</a></li>
+				<li><a href="/user_list_search/">Search Users</a></li>
+				<li><a href="/user_list_pending/">Pending Approval</a></li>
+				<li><a href="/profile/">Change Password</a></li>
+			{%endif%}
+			{%if user.is_authenticated%}
+				<li><a href="/logout/">Logout</a></li>
+			{%endif%}
+			{%if not user.is_authenticated%}
+				<li><a href="/login/">Login</a></li>
+			{%endif%}
+		  </ul>
+      </div>
+    </nav>
+	<p>
+	<br>
+	<div class="container">
+	{% block content %}
+	{% endblock%}
+	</div>
+  </body>
+</html>

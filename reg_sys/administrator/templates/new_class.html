@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Create New Class{% endblock %}
+{% block content %}
+
+<hr class="rs-hr">
+<p><br>
+<div class="panel panel-default">
+   <div class="panel-heading rs-panel-heading">
+      Add New Class
+   </div>
+   <div class="panel-body">
+      <form action="/new_class/" method="post">
+	  {% csrf_token %}
+	  <input name="command" value="new_class" style="display:none">
+	  {% include "class_form.html" %}
+      </form>
+   </div>
+</div>
+
+{%endblock content%}

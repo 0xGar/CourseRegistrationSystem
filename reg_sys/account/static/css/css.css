@@ -1,0 +1,39 @@
+.rs-panel-heading {
+	background:#4b0082 !important;
+	color:#e7e7e7 !important;
+}
+
+.panel-body a {
+	color:purple !important;
+}
+
+.rs-subbox{
+	background:#f1f1f1 !important;
+	padding:15px !important;
+}
+.rs-subbox-color{
+	background:#f1f1f1 !important;
+}
+.rs-hr{
+	background-color:blue !important;
+	border:1px solid black !important;
+
+}
+.rs-class-list{
+	font-size:x-small;
+}
+.rs-font-small{
+	font-size:small;
+}
+.rs-time-box{
+	background:#f8f8f8 !important;
+	color:black !important;
+	border:1px solid #ccc !important;
+	display:block !important;
+	margin-bottom:2px !important;
+}
+.btn-default,.btn-success{
+	background:#F8F8F8 !important;
+	color:black !important;
+	border-color:#ccc !important;
+}

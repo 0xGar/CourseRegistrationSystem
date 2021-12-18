@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}User Search{% endblock %}
+{% block content %}
+
+<hr style='background-color:blue !important;border:1px solid black'>
+<p><br>
+<div class="panel panel-default">
+   <div class="panel-heading rs-panel-heading">
+      User search
+   </div>
+   <div class="panel-body">
+   * Username or email or last name is required. 
+   <p>
+   <form action="/user_list" method="get">
+   <table class="table table-striped">
+   <tr>
+     <td>
+	   <input class='form-control' type="input" name="first_name" placeholder="First Name">
+     </td>
+	 <td>
+	 <input class='form-control' type="input" name="last_name" placeholder="Last Name">
+	 </td>
+   </tr>
+   <tr>
+     <td>
+	   <input class='form-control' type="input" name="username" placeholder="Username">
+	 </td>
+     <td>
+	   <input class='form-control' type="input" name="email" placeholder="Email">
+	 </td>
+   </tr>
+   <tr>
+	<td>
+	  <input id=account_student type=radio name="account_type" value="student">
+	  <label for="account_student">&nbsp;Student&nbsp;</label>
+	  <input id=account_prof type=radio name="account_type" value="professor">
+	  <label for="account_prof">&nbsp;Professor</label>
+	</td>
+	<td></td>
+   </tr>
+   </table>
+   <button type="submit" class="btn btn-success">Search</button>
+   </form>
+   {%for user in users%}
+     <a href='/modify_account?id={{user.id}}'>{{user.first_name}} {{user.last_name}} ({{user.email}})</a><br>
+   {%endfor%}
+   </div>
+</div>
+
+{%endblock content%}

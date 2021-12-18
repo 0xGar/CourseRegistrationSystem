@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}New Account{% endblock %}
+{% block content %}
+
+<hr class="rs-hr">
+<p><br>
+
+<div class="panel panel-default">
+   <div class="panel-heading rs-panel-heading">
+      Add New Account
+   </div>
+   <div class="panel-body">  
+        <form action="/new_account/" method="post">
+	      {% csrf_token %}
+		  {% include "account_form.html" %}	
+	      <input name="command" value="new_account" style="display:none">
+        </form>
+   </div>
+</div>
+
+{%endblock content%}

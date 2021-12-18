@@ -1,0 +1,49 @@
+<div class='rs-subbox' id="new_course_div">
+  <p>
+   <table class="table rs-subbox-color">
+      <tr>
+         <th valign=top >
+            Course Name
+         </th>
+         <td>
+            <input class="form-control" id="course_name">
+         </td>
+      </tr>
+      <tr>
+         <th valign=top >
+            Course Number
+         </th>
+         <td>
+            <input class="form-control" id="course_name_id">
+         </td>
+      </tr>
+      <tr>
+         <th valign=top >
+            Subject
+         </th>
+         <td>
+            <input class="form-control" id="course_subject">
+         </td>
+      </tr>
+      <tr>
+      <th>Department</th>
+         <td>
+           <select class="form-control" id="course_department">
+           {% for department in departments %}
+             <option value="{{department.id}}">{{department.name}}</option>
+           {%endfor%}
+           </select>
+         </td>
+      </tr>
+      <tr>
+         <th>Prerequisites (separated by ;)</th>
+         <td><input id="course_prerequisites" type=text  class="form-control" value="{{prereq}}"></td>
+      </tr>
+      <tr>
+         <th>Description</th>
+         <td><input id="course_description" class="form-control" type=text value=""></td>
+      </tr>
+   </table>
+   <span class="btn btn-success" id="new_course_submit_button" onclick='$_CourseMod.newCourse()'>Submit</button>
+</div>
+<script> $("#new_course_div").hide() </script>

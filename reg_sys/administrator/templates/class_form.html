@@ -1,0 +1,84 @@
+<p>
+<table class="table table-striped">
+    <!-- <tr>
+       <!-- <th valign=top>
+          Course Name
+       </th>
+       <td>
+          <input class="form-control" name="course_name" value="{{course.name}}" required>
+       </td>
+    </tr> -->
+  <tr>
+    <th valign=top >
+        Course 
+    </th>
+    <td>
+      <select  class="form-control" name="course_id">
+      {% for course_option in course_options %}
+        {%if class.course.name_id == course_option.name_id%}
+          <option value="{{course_option.id}}" selected="selected">{{course_option.name_id}}</option>
+        {%else%}
+          <option value="{{course_option.id}}">{{course_option.name_id}}</option>
+        {%endif%}
+      {%endfor%}
+      </select>
+      <br>
+       <span class="btn btn-success" onclick='$("#new_course_div").toggle();' id="new_course_button">New Course</span>
+      <p>
+      <div>
+        {% include "new_course_bare.html" %}
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <th valign=top >
+      Term
+    </th>
+    <td>
+      <select  class="form-control" name="term_id">
+      {% for term in terms %}
+        <option value="{{term.id}}">{{term.name}} {{term.year}}</option>
+      {%endfor%}
+      </select>
+      <br>
+      <span class="btn btn-success" onclick='$("#new_term_div").toggle();' id="new_term_button">New Term</span>
+      <p>
+      <div>
+       {% include "new_term_bare.html" %}
+      </div>
+    </td>
+  </tr>
+          <!--<tr>
+             <th>Department</th>
+             <td>
+               <select  class="form-control" name="course_department">
+            {% for department in departments %}
+               <option>{{department}}</option>
+               {%endfor%}
+               </select>
+      </td>
+          </tr>-->
+  <tr>
+  <th>Building</th>
+  <td><input name="class_building" class="form-control" type=text value="{{class.building}}"></td>
+  </tr>
+   <!-- <tr>
+       <th>Description</th>
+       <td><input name="course_description" class="form-control" type=text value="{{course.description}}"></td>
+    </tr> -->
+  <tr>
+    <th>Class Time</th>
+    <td>
+      {% include "time_box.html"%}
+    </td>
+  </tr>
+  <tr>
+    <th>Class Start Date (yyyy-mm-dd)</th>
+    <td><input name="class_start_date" class="form-control" pattern="\d\d\d\d-\d\d-\d\d" type=date value="{{class.class_start_date|date:"Y-m-d"}}" required></td>
+  </tr>
+  <tr>
+    <th>Class End Date (yyyy-mm-dd)</th>
+    <td><input name="class_end_date" class="form-control"  pattern="\d\d\d\d-\d\d-\d\d" type=date value="{{class.class_end_date|date:"Y-m-d"}}" required></td>
+  </tr>
+</table>
+<button type="submit" class="btn btn-success">Submit</button>

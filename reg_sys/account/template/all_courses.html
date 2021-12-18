@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% block title %}{%if recommended_courses == True%}Recommended Courses{%else%}All Courses{%endif%}{% endblock %}
+{% block content %}
+
+<div class="panel-body">
+  {%if recommended_courses == True%}
+    Recommend Courses
+  {%else%}
+    <form action="/all_courses" method="post" id="filter_form">
+      {% csrf_token %}
+      <input name="filter_courses" id="filter_courses" style='display:none'>
+      <input name="filter_departments" id="filter_departments" style='display:none'>
+    </form>
+    <div id="search_filters">
+      <table id="search_filter_table">
+      </table>
+      <br>
+      <span type='submit' class='btn btn-default' onclick="submit_search_filters()">
+        <span class='glyphicon glyphicon-search'>
+        </span>
+      </span>
+    </div>
+ {%endif%}
+  <br>
+
+<script>
+var tags=[];
+var sug_box_count=-1;
+var departments=[];
+
+//Populate array with all departments
+{% for department in departments %}
+  departments.push(['{{department.id}}','{{department.name}}']);
+{%endfor%}
+
+new_suggestion_box();
+
+// Submits the filters as POST data
+// 
+
+function submit_search_filters(){
+  filter_name_pref="#filter_suggestions";
+  filter_depart_pref="#filter_department";
+
+  var count=sug_box_count;
+  var courses=[];
+  var selected_departments=[];
+
+  //Get courses from input boxes & departments from drop down
+  for (var i=0; i <= count;i++){
+    var course=$(filter_name_pref+i).val();
+    if (course.length > 0)
+      courses.push( $(filter_name_pref+i).val() );
+    selected_departments.push($(filter_depart_pref+i).find(":selected").attr("value"));
+  }
+
+  if (courses.length > 0)
+    $("#filter_courses").val(courses);
+    $("#filter_departments").val(selected_departments);
+
+    $("#filter_form").submit();
+}
+
+//Remove's a filter at user's request
+function remove_filter(value){
+  $(value).remove();
+  if (sug_box_count > 0)
+    sug_box_count--;
+}
+
+//
+//This function creates a new search filter when user 
+//clicks feature to add one. By default we make a single
+//search filter on page load (see above function call)
+//
+//Input box ID's: filter_suggestions0, filter_suggestions1...
+function new_suggestion_box(){
+  sug_box_count++;
+  value="filter_suggestions"+sug_box_count;
+
+  //Create department box
+  dep_box="<select  class='form-control' id='filter_department"+sug_box_count+"'>";
+  dep_box+="<option value='-1'>Select department</option>";
+  dep_box+="<option value='-1'>All</option>";
+  for (i in departments)
+    dep_box +="<option value='"+departments[i][0]+"'>"+departments[i][1]+"</option>";
+  dep_box+="</select>";
+
+  //Construct tr/td, insert department box, construct input suggestion box
+  var html="<tr id='search_"+sug_box_count+"'>";
+  html +="<td>"+dep_box+"</td>";
+  html+="<td>&nbsp</td>";
+  html +="<td><input id='"+value+"' class='form-control' placeholder='Course ID'></td>";
+
+  //Reconstruct add button 
+  html+="<td id='search_add'><span onclick='new_suggestion_box()'>&nbsp;+</span>";
+  html+="</td>";
+
+  //Add 'remove' option fur current search box but keep it empty
+  html +="<td id='remove_"+sug_box_count+"'></td>";
+
+  //Fill it with 'x' for previous search box user added
+  // --------------- REMOVED THIS PORTION OF THE FEATURE FOR NOW ------------------------------
+  // 
+  //if (sug_box_count > 0)
+  //  $("#remove_"+(sug_box_count-1)).html("<span onclick='remove_filter(\"#search_"+(sug_box_count-1)+"\");'>&nbsp;x</span>");
+
+  //Remove 'add search box' from previous search box and readd 
+  //(by above code) to current one & append above HTML
+  $("#search_add").remove();
+
+  $("#search_filter_table").append(html);
+
+  tags[value]=[];
+  $("#"+value).autocomplete({
+    source: tags[value]
+  });
+
+  // Function binds to input suggestion box 
+  // When key is pressed the contents of the input box
+  // is set to the server to search for matches
+  // Results found are put in an array that
+  // is used to generate the suggestions by JqueryUI
+  var myvalue=value;
+  $("#"+myvalue).on("input", function() {
+    console.log(myvalue);
+    $.ajax({
+      type: 'GET',
+      url: '/filter_courses',
+      data: {
+        //GET data
+        filter:$("#"+myvalue).val(),
+        csrfmiddlewaretoken:$("[name=csrfmiddlewaretoken]").val()
+      },
+      dataType:'json',
+      success: function(response)
+      {
+        if (response.success){
+          //alert(response.list);
+          tags[myvalue].length=0;
+          for (a in response.list)
+            tags[myvalue].push(response.list[a]);
+          console.log(tags)
+        }
+        //else
+          //alert(response.error);
+      }
+    });
+  });
+}
+</script>
+
+  <hr class="rs-hr">
+  {% if user.person.account_type == "student"%}
+    <form action="/add_course/" method="post">
+    {% csrf_token %}
+  {% endif %}
+  {% if user.person.account_type == "professor"%}
+    <form action="/add_course_prof/" method="post">
+    {% csrf_token %}
+  {% endif %}
+    
+  {% load set_var %}
+  {% set temp = "" %}
+  {% for class in classes %}
+
+    {% if temp != "" and temp != class.course.department.name %}
+      </table>
+      </div>
+    {% endif %}
+    {% if temp != class.course.department.name %}
+      <div class="panel panel-default" >
+        <div class="panel-heading rs-panel-heading">
+         {{class.course.department.name}}
+        </div>
+        <table class="table table-striped">
+        <tr>
+        <th>Course</th>
+        <th>Term</th>
+        <th>Prerequisites</th>
+        <th>Time</th>
+      </tr>
+    {% endif %}
+    <tr>
+      <td class="col-xs-4">
+        {%if class in my_classes%}
+          (enrolled)
+        {%else%}
+          {% if user.person.account_type == "student"  %}
+          <input type="checkbox" id='{{class.id}}' name='courses_checkbox' value='{{class.id}}'>
+          {% endif %}
+          {% if user.person.account_type == "professor" and person_department == class.course.department%}
+          <input type="checkbox" id='{{class.id}}' name='courses_checkbox' value='{{class.id}}'>
+          {% endif %}
+        {%endif%}
+        <a href='/show_course?id={{class.id}}' style='color:#4b0082'>{{class.course.name}} ({{class.course.name_id}})</a>
+         {% if user.is_superuser %}
+           <a href="/modify_class?id={{class.id}}"><span class="glyphicon glyphicon-edit"></span></a>
+         {%endif%}
+         {% if user.person.account_type == "professor"  %}
+          
+         {%endif%}
+         <br>
+           <i>
+            Professor: 
+            {% if class.professor %}
+              <span style='font-size:small'>
+              {{class.professor.registration.last_name}},
+              {{class.professor.registration.first_name}}&nbsp;
+             {%else%} 
+               TBA
+             {%endif%}
+             </span>
+           </i>
+        </td>
+        <td  class="col-xs-2">
+          {{class.term.name}}  {{class.term.year}}
+        </td>
+          <td  class="col-xs-2">
+          {% for req in prereq %}
+            {% if req.course == class.course %}
+                {{req.prerequisite}},&nbsp;
+          {%endif%}
+          {%endfor%}
+        </td>
+        <td  class="col-xs-4">
+          {% for time in times %}
+            {% if time.myclass == class %}
+             <span class="label btn-default rs-time-box">
+               {{time.day}} {{time.start}}-{{time.end}}
+             </span>
+          {%endif%}
+          {%endfor%}
+        </td>
+      </tr>
+      {% set temp = class.course.department.name %}
+        {%if class.course.department.name == None %}
+          {% set temp = "None" %}
+        {%endif%}
+    {% endfor %}
+    </table>
+  </div>
+  {% if user.person.account_type == "student"%}
+    <button type="submit" class="btn btn-success">Enroll</button>
+  {% endif %}
+  {% if user.person.account_type == "professor"%}
+    <button type="submit" class="btn btn-default">Teach</button>
+  {% endif %}
+  {% if user.person.account_type == "student"  or user.person.account_type == "professor" %}
+    </form>
+  {% endif %}
+</div>
+{%endblock content%}

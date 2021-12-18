@@ -1,0 +1,31 @@
+<div class='rs-subbox' id="new_term_div">
+  <p>
+   <table class="table rs-subbox-color">
+      <tr>
+         <th valign=top >
+            Term Name
+         </th>
+         <td>
+            <input class="form-control" name="term_name" id="term_name">
+         </td>
+      </tr>
+      <tr>
+         <th>Year (yyyy)</th>
+         <td><input name="term_year" class="form-control" type=text id="term_year"></td>
+      </tr>
+      <tr>
+         <th>Register Start Date (yyyy-mm-dd) {{class.reg_start_date}}</th>
+         <td><input name="reg_start_date" id="reg_start_date" class="form-control" type=date value="{{class.reg_start_date|date:"Y-m-d"}}"></td>
+      </tr>
+      <tr>
+         <th>Register End Date  (yyyy-mm-dd) </th>
+         <td><input  name="reg_end_date" id="reg_end_date" class="form-control" type=date value="{{class.reg_end_date|date:"Y-m-d"}}"></td>
+      </tr>
+      <tr>
+         <th>Withdrawal Date  (yyyy-mm-dd) </th>
+         <td><input name="withdrawal_date" id="withdrawal_date" class="form-control" type=date value="{{class.withdrawal_date|date:"Y-m-d"}}"></td>
+      </tr>
+   </table>
+   <span class="btn btn-success" id="new_term_submit_button" onclick='$_TermMod.newTerm()'>Submit</button>
+</div>
+<script> $("#new_term_div").hide() </script>

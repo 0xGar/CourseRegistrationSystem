@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Modify Class{% endblock %}
+{% block content %}
+<script>
+   var array={{class_times | safe}};
+	$(document).ready(function() {
+		$_TimeMod.setTime(array);
+	});
+
+
+</script>
+<hr class="rs-hr">
+<p><br>
+<div class="panel panel-default">
+   <div class="panel-heading rs-panel-heading">
+      Modify Course
+   </div>
+   <div class="panel-body">
+      <form action="/new_class/" method="post">
+	  {% csrf_token %}
+	  <input type="input" name="command" value="modify_class" style="display:none">
+	  <input type="input" name="class_db_id" value="{{class.id}}" style="display:none">
+	  {% include "class_form.html" %}
+      </form>
+   </div>
+</div>
+
+{%endblock content%}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}New Class Made{% endblock %}
+{% block content %}
+<hr class="rs-hr">
+<p><br>
+<div class="panel panel-default">
+  <div class="panel-heading rs-panel-heading">
+    New Course Added
+  </div>
+  <div class="panel-body">
+    <table>
+	<tr>
+	<td><b>Class Name</b>: <td>{{class.course.name}} ({{class.course.name_id}})</td>
+	</tr>
+	<tr>
+	<td><b>Department</b>: <td>{{class.course.department.name}}</td>
+	</tr>
+	<tr>
+	<td><b>Building</b>: <td>{{class.building}}</td>
+	</tr>
+	<tr>
+	<td><b>Class Start</b>: <td>{{class.class_start_date}}</td>
+	</tr>
+	<tr>
+	<td><b>Class End</b>: <td>{{class.class_end_date}}</td>
+	</tr>
+	<tr>
+	<td><b>Registration Start</b>: <td> {{class.term.reg_start_date}}</td>
+	</tr>
+	<tr>
+	<td><b>Registration end</b>: <td>{{class.term.reg_end_date}}</td>
+	</tr>
+	<tr>
+	<td><b>Withdrawal date</b>: <td>{{class.term.withdrawal_date}}</td>
+	</tr>
+	<tr>
+	<td><b>Description</b>: <td>{{class.course.description}}</td>
+	</tr>
+	</table><p><br>
+	<br>
+  </div>
+</div>
+<p>
+  {% endblock content %}
